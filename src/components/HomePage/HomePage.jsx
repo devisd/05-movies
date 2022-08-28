@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { fetchOnTrending } from '../../services/movieSearch';
+import { Link, useLocation } from 'react-router-dom';
+import { fetchOnTrending } from 'services/movieSearch';
 
 const HomePage = () => {
   const [trends, setTrends] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     fetchOnTrending().then(setTrends);
   }, []);
-
-  console.log(trends);
 
   return (
     <>
@@ -19,8 +19,10 @@ const HomePage = () => {
           trends.map(el => {
             return (
               <li key={el.id}>
-                <h2>{el.title}</h2>
-                <p>{el.release_date}</p>
+                <Link to={`movies/${el.id}`} state={{ from: location }}>
+                  <h2>{el.title}</h2>
+                  <p>{el.release_date}</p>
+                </Link>
               </li>
             );
           })}
