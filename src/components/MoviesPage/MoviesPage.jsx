@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { fetchOnSearchMovies } from '../../services/movieSearch';
 
@@ -8,12 +8,16 @@ const MoviePage = () => {
   const [searchParams, setSearchParams] = useSearchParams('');
   const query = searchParams.get('query') || '';
   const location = useLocation();
-  console.log(query);
+
+  useEffect(() => {
+    if (window.localStorage.getItem('query'))
+      fetchOnSearchMovies(query).then(setMovies);
+  }, [query]);
 
   const handleChange = e => {
     setSearchQuery(e.target.value);
-
     if (searchQuery) {
+      resetLocalStorage();
       setSearchParams({ query: e.target.value });
     } else {
       setSearchParams('');
@@ -23,7 +27,12 @@ const MoviePage = () => {
   const handleSubmit = e => {
     e.preventDefault();
     setSearchQuery(searchQuery);
-    fetchOnSearchMovies(searchQuery).then(setMovies);
+    fetchOnSearchMovies(query).then(setMovies);
+    window.localStorage.setItem('query', JSON.stringify(query));
+  };
+
+  const resetLocalStorage = () => {
+    window.localStorage.removeItem('query');
   };
   return (
     <>

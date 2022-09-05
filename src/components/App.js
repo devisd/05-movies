@@ -1,12 +1,5 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import Layout from 'components/Layout';
-// import HomePage from 'components/HomePage';
-// import MoviesPage from 'components/MoviesPage';
-// import MovieDetailsPage from 'components/MovieDetailsPage';
-// import Cast from 'components/Cast';
-// import Reviews from 'components/Reviews';
-// import NotFoundPage from 'components/NotFoundPage';
 
 const Layout = lazy(() =>
   import('components/Layout' /* webpackChunkName: "layout" */)
